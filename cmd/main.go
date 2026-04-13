@@ -1,0 +1,43 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"github.com/spf13/cobra"
+)
+
+func main() {
+	var rootCmd = &cobra.Command{
+		Use:   "warden",
+		Short: "Warden is a security-first package installer for Node.js",
+		Long: `Warden protects your Node.js supply chain by auditing CVEs
+in real-time and enforcing safe configurations before any package is installed.`,
+	}
+
+	var initCmd = &cobra.Command{
+		Use:   "init",
+		Short: "Initialize safe project configurations",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("🛡️ Warden: Checking and creating safe .npmrc configurations...")
+			// Aquí irá tu lógica para escribir el archivo .npmrc
+		},
+	}
+
+	var installCmd = &cobra.Command{
+		Use:   "install [packages]",
+		Short: "Install packages with real-time CVE auditing",
+		Args:  cobra.MinimumNArgs(0),
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("🔍 Warden: Auditing dependencies before installation...")
+			// Aquí irá tu lógica para detectar el lockfile y consultar OSV.dev
+		},
+	}
+
+	rootCmd.AddCommand(initCmd)
+	rootCmd.AddCommand(installCmd)
+
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}

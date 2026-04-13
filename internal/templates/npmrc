@@ -1,0 +1,42 @@
+# ==============================================================
+# SECURITY TEMPLATE FOR .npmrc (SecDevOps)
+# Compatible with npm, pnpm, bun, and yarn v1
+# ==============================================================
+
+# --- 1. PREVENT MALICIOUS CODE EXECUTION ---
+# Blocks automatic execution of scripts (preinstall/postinstall).
+# This is the primary defense against malware executed upon package download.
+ignore-scripts=true
+
+# --- 2. DETERMINISM AND STABILITY ---
+# Forces the installation of exact versions in package.json (no ^ or ~ prefixes).
+# Prevents minor updates from compromising the project without prior review.
+save-exact=true
+
+# --- 3. STRICT DEPENDENCY RESOLUTION ---
+# Fails the installation if there are conflicts or incompatibilities in peer dependencies.
+# Prevents unexpected behaviors due to silently broken dependencies.
+strict-peer-dependencies=true
+
+# --- 4. SECURITY AUDITS ---
+# Ensures that the package manager always checks for vulnerabilities (CVEs) during installation.
+audit=true
+
+# --- 5. DEFENSE AGAINST NEWLY PUBLISHED DEPENDENCIES (Specific to pnpm >= 10.16) ---
+# Sets a "cooldown period" of 24 hours (1440 minutes).
+# Protects against recently published malicious versions by allowing the community
+# and scanners to detect malware before you install it.
+minimumReleaseAge=1440
+
+# --- 6. AUTHENTICATION AND TOKEN PROTECTION ---
+# GOLDEN RULE: Never hardcode your token here. Use environment variables or use in your global npmrc file
+# Protect your credentials by STRICTLY linking the token to its corresponding registry.
+
+# If using the public npm registry:
+//registry.npmjs.org/:_authToken=${NPM_TOKEN}
+
+# If using a private registry (e.g., GitLab, GitHub Packages, Artifactory)
+# This prevents "Dependency Confusion" attacks by forcing packages
+# from your company (@my-company) to only be fetched from your private registry.
+# @my-company:registry=https://npm.pkg.github.com/
+# //npm.pkg.github.com/:_authToken=${MY_PRIVATE_TOKEN}

@@ -1,0 +1,42 @@
+# ==============================================================
+# SECURITY TEMPLATE FOR .yarnrc.yml (SecDevOps)
+# Compatible with Modern Yarn (v2, v3, v4+)
+# ==============================================================
+
+# --- 1. PREVENT MALICIOUS CODE EXECUTION ---
+# Blocks automatic execution of third-party scripts (preinstall/postinstall) across the project.
+enableScripts: false
+
+# Exceptions (Allowlist): Since we block everything, you must explicitly
+# allow trusted packages that need to build binaries.
+dependenciesMeta:
+  esbuild:
+    built: true
+  bcrypt:
+    built: true
+  node-sass:
+    built: true
+
+# --- 2. DETERMINISM AND STABILITY ---
+# Forces the installation of exact versions when using `yarn add` (no ^ or ~ prefixes).
+# Equivalent to save-exact=true in npmrc.
+defaultSemverRangePrefix: ""
+
+# --- 3. TELEMETRY ---
+# Disables sending anonymous usage data (good practice in enterprise environments).
+enableTelemetry: false
+
+# --- 4. AUTHENTICATION AND PRIVATE REGISTRIES ---
+# Prevents "Dependency Confusion" attacks.
+# Yarn Berry allows reading environment variables directly in YAML using the ${VAR} syntax.
+
+# A. For packages from your organization (e.g., @my-company)
+npmScopes:
+  my-company:
+    npmRegistryServer: "https://npm.pkg.github.com"
+    npmAuthToken: "${MY_PRIVATE_TOKEN:-}"
+
+# B. For the default public registry (npmjs.org)
+npmRegistries:
+  "//registry.npmjs.org":
+    npmAuthToken: "${NPM_TOKEN:-}"

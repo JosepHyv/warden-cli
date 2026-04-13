@@ -1,0 +1,7 @@
+{
+    "trustedDependencies": [
+        "esbuild",
+        "bcrypt",
+        "node-saas"
+    ]
+}
