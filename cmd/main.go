@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"github.com/spf13/cobra"
+	"github.com/JosepHyv/warden-cli/internal/config"
 )
 
 func main() {

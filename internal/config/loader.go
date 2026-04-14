@@ -16,7 +16,7 @@ func LoadTemplate(pm PackageManager) (SecurityConfig, string, error) {
 		execPath, _ = os.Getwd()
 	}
 
-	templateDir := filepath.Join(filepath.Dir(execPath), "internal", "template")
+	templateDir := filepath.Join(filepath.Dir(execPath), "internal", "templates")
 	if _, err := os.Stat(templateDir); os.IsNotExist(err) {
 		templateDir = filepath.Join(".", "internal", "template")
 	}
