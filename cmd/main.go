@@ -5,6 +5,7 @@ import (
 	"os"
 	"github.com/spf13/cobra"
 	"github.com/JosepHyv/warden-cli/internal/config"
+	"github.com/manifoldco/promptui"
 )
 
 func main() {
@@ -20,7 +21,25 @@ in real-time and enforcing safe configurations before any package is installed.`
 		Short: "Initialize safe project configurations",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("🛡️ Warden: Checking and creating safe .npmrc configurations...")
-			// Aquí irá tu lógica para escribir el archivo .npmrc
+			pm, err := config.DetectPackageManager()
+			if err != nil {
+				fmt.Println("The current project does not have a package manager yet!")
+				prompt := promptui.Select{
+					Label: "Select one of your installed packagemanagers",
+					Items: config.GetSystemPackageManagers(),
+				}
+
+				_, result, err := prompt.Run()
+				if err != nil {
+					fmt.Println("Error")
+				}
+				fmt.Println(result)
+
+			}
+
+			fmt.Println(pm.SecurityConfig)
+
+
 		},
 	}
 
